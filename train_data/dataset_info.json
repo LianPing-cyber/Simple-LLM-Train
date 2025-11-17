@@ -1,0 +1,10 @@
+{
+  "test": {
+    "file_name": "test.json",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}
