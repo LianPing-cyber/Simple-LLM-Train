@@ -101,18 +101,21 @@ e.g. <judge>right</judge>
 """
     query = "Please judge the right or wrong and only return the answer."
     
-    client = OpenAI(api_key="YOUR_API_KEY", base_url="YOUR_BASE_URL")
+    client = OpenAI(api_key="your_api_key", base_url="base_url")
     response = client.chat.completions.create(
-        model="MODEL_NAME",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": query}
-        ],
-        temperature=0.0,
-        max_tokens=10,
-    ).choices[0].message['content']
+    model="model-name",
+    messages=[
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": query},
+    ],
+    stream=False
+)
+    response = response.choices[0].message.content
+    print(response)
     response = response.strip().lower()
     if "wrong" in response:
         return 0
-    else:
+    elif "right" in response:
         return 1
+    else:
+        return 0

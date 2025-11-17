@@ -78,10 +78,6 @@ def main():
             data.write_in_alpaca(save_file=lf_data_dir+"/"+task_name+".json")
             Qwen3Guard.train(1)
             gpu_clear()
-            evaluater = Evaluate_Normal(output_model, data)
-            evaluater.generate_result(eval_num)
-            evaluater.eval_right()
-            gpu_clear()
             data.get_data(max_num=data_num, random_sample=random_sample)
 
     evaluater = Evaluate_Normal(output_model, data)
