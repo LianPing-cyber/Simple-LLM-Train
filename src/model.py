@@ -18,50 +18,50 @@ class Model():
 
     def new_copy_for_original_model(self, output_model):
         self.output_model = output_model
-        # 新建训练任务，创建原模型副本，防止污染
+        # Create a new training task by making a copy of the original model to avoid contamination
         self.output_model = output_model
         try:
-            # 检查a路径是否存在
+            # Check if the source path exists
             if not os.path.exists(self.original_model):
-                print(f"错误：源文件夹 '{self.original_model}' 不存在")
+                print(f"Error: The source folder '{self.original_model}' does not exist")
                 return False
             
-            # 检查b路径是否存在
+            # Check if the destination path exists
             if os.path.exists(output_model):
-                print(f"目标文件夹 '{output_model}' 已存在，正在删除...")
+                print(f"The target folder '{output_model}' already exists. Deleting it...")
                 try:
-                    # 删除b路径（包括所有子文件和文件夹）
+                    # Delete the destination path (including all files and subfolders)
                     if os.path.isfile(output_model):
                         os.remove(output_model)
                     else:
                         shutil.rmtree(output_model)
-                    print("删除完成")
+                    print("Deletion completed")
                 except Exception as e:
-                    print(f"删除文件夹时出错: {e}")
+                    print(f"Error occurred while deleting the folder: {e}")
                     return False
         
-            # 创建b路径
-            print(f"创建文件夹: {output_model}")
+            # Create the destination path
+            print(f"Creating folder: {output_model}")
             os.makedirs(output_model, exist_ok=True)
             
-            # 拷贝a路径下的所有内容到b路径
-            print(f"正在从 '{self.original_model}' 拷贝文件到 '{output_model}'...")
+            # Copy all contents from the source path to the destination path
+            print(f"Copying files from '{self.original_model}' to '{output_model}'...")
 
-            # 递归拷贝所有内容
+            # Recursively copy all contents
             for item in os.listdir(self.original_model):
                 src_item = os.path.join(self.original_model, item)
                 dst_item = os.path.join(output_model, item)
                     
                 if os.path.isfile(src_item):
                     shutil.copy2(src_item, dst_item)
-                    print(f"拷贝文件: {item}")
+                    print(f"Copied file: {item}")
                 elif os.path.isdir(src_item):
                     shutil.copytree(src_item, dst_item)
-                    print(f"拷贝文件夹: {item}")
+                    print(f"Copied folder: {item}")
         
-            print("操作完成！")
+            print("Operation completed!")
             return True
             
         except Exception as e:
-            print(f"操作过程中出错: {e}")
+            print(f"An error occurred during the operation: {e}")
             return False

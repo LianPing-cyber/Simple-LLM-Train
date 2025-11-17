@@ -62,7 +62,7 @@ class Trainer:
             stdout=subprocess.PIPE, 
             stderr=subprocess.PIPE, 
             text=True,
-            bufsize=1,  # 行缓冲
+            bufsize=1, 
             universal_newlines=True
         )
         
@@ -72,7 +72,6 @@ class Trainer:
         stdout_thread.start()
         stderr_thread.start()
 
-        # 等待进程完成
         process.wait()
 
                 

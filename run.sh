@@ -20,6 +20,7 @@ LF_DATA_DIR="train_data"
 
 PER_DEVICE_TRAIN_BATCH_SIZE=4
 NPROC_PER_NODE=1
+LEARNING_RATE=1e-4
 
 python -u src/main.py \
     --data $DATA \
@@ -34,6 +35,7 @@ python -u src/main.py \
     --original_model_folder $ORIGINAL_MODEL_FOLDER \
     --output_model_folder $OUTPUT_MODEL_FOLDER \
     --per_device_train_batch_size $PER_DEVICE_TRAIN_BATCH_SIZE \
+    --learning_rate $LEARNING_RATE \
     --nproc_per_node $NPROC_PER_NODE \
     --lf_path $LF_PATH \
     --lf_data_dir $LF_DATA_DIR 2>&1 | tee logs/$LOG.log
