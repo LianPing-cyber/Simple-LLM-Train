@@ -113,9 +113,9 @@ e.g. <judge>right</judge>
 """
     query = "Please judge the right or wrong and only return the answer."
     
-    client = OpenAI(api_key="sk-05542169ff8644c08926a729949abff3", base_url="https://api.deepseek.com")
+    client = OpenAI(api_key="api-key", base_url="base_url")
     response = client.chat.completions.create(
-    model="deepseek-chat",
+    model="dmodel name",
     messages=[
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": query},
