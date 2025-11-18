@@ -105,13 +105,13 @@ class Evaluate_Normal():
         return accuracy
 
 async def judge_the_correctness(label, generated):
-    system_prompt = f"""You are an answer evaluator tasked with determining whether the provided answer from the assistant is right or wrong.
-The question and the generated answer: <<{generated}>>
-The right answer is: <<{label}>>
+    f"""You are an answer evaluator tasked with determining whether the provided answer from the assistant is right or wrong.
+The generated answer: <<{generated}>>
+Reference: <<{label}>>
 -- Please only return "right" or "wrong", without any additional explanations.
 e.g. <judge>right</judge>
 """
-    query = "Please judge the right or wrong and only return the answer."
+    query = "As long as the option is right, it's right. Please judge the right or wrong and only return the answer."
     
     client = OpenAI(api_key="api-key", base_url="base_url")
     response = client.chat.completions.create(
