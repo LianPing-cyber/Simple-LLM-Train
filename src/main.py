@@ -33,6 +33,7 @@ def main():
 
     parser.add_argument('--per_device_train_batch_size', type=int, help='Batch size for each GPU', default=1)
     parser.add_argument('--nproc_per_node', type=int, help='Parallelization setting for number of processes per node during training', default=2)
+    parser.add_argument('--finetuning_type', type=str, help='finetuning type: full or lora', default='lora')
     parser.add_argument('--learning_rate', type=float, help='Learning rate for training', default=5e-5)
 
     args = parser.parse_args()
@@ -54,9 +55,6 @@ def main():
     lf_path = args.lf_path
     lf_data_dir = args.lf_data_dir
 
-    # Write a unified system prompt
-
-    # First, load and save the dataset
     data = Data_Normal(data_name=task_name, data_path=data, data_type=data_type)
     if do_train == 1:
         data.get_data(max_num=data_num, random_sample=random_sample)
@@ -64,7 +62,7 @@ def main():
 
     if do_train == 1:
         trainer = Trainer(lf_path, lf_data_dir)
-        trainer.get_parameters(stage="sft", finetuning_type="lora", max_sample=data_num,
+        trainer.get_parameters(stage="sft", finetuning_type=args.finetuning_type, max_sample=data_num,
                 per_device_train_batch_size = args.per_device_train_batch_size,
                 nproc_per_node=args.nproc_per_node,
                 learning_rate=args.learning_rate

@@ -26,15 +26,13 @@ class Trainer:
         cmd = cmd_head + [
             self.start_file,
             '--stage', 'sft',
-            '--finetuning_type', 'lora', 
+            '--finetuning_type', 'lora',
             '--max_sample', self.max_sample,
             '--num_train_epochs', epoch,
             '--model_name_or_path', self.model,
-            '--output_dir', self.model + "/adp/",
             '--dataset', self.dataset,
             '--dataset_dir', self.data_dir,
             '--do_train', self.do_train,
-            '--lora_rank', self.lora_rank,
             '--template', self.template,
             '--cutoff_len', self.cutoff_len,
             '--load_best_model_at_end', 'true',
@@ -56,9 +54,15 @@ class Trainer:
             '--bf16', self.bf16,
             '--ddp_timeout', self.ddp_timeout
         ]
-        adapter_path = os.path.join(self.model_path,"adp")
+        adapter_path = os.path.join(self.model,"adp")
         if os.path.exists(adapter_path):
             cmd = cmd + ['--adapter_name_or_path', adapter_path]
+        if self.finetuning_type == "lora":
+            cmd = cmd + ['--lora_rank', self.lora_rank]
+            cmd = cmd + ['--output_dir', os.path.join(self.model,"adp")]
+        else:
+            cmd = cmd + ['--output_dir', self.model]
+
         cmd = [str(arg) if not isinstance(arg, (str, bytes)) else arg for arg in cmd] 
         print("Start Train...")
         process = subprocess.Popen(
