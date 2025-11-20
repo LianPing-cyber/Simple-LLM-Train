@@ -1,6 +1,6 @@
 import subprocess
 import threading
-
+import os
 class Trainer:
     def __init__(self, lf_path, lf_dir):
         self.start_file = lf_path + '/src/train.py'
@@ -56,6 +56,9 @@ class Trainer:
             '--bf16', self.bf16,
             '--ddp_timeout', self.ddp_timeout
         ]
+        adapter_path = os.path.join(self.model_path,"adp")
+        if os.path.exists(adapter_path):
+            cmd = cmd + ['--adapter_name_or_path', adapter_path]
         cmd = [str(arg) if not isinstance(arg, (str, bytes)) else arg for arg in cmd] 
         print("Start Train...")
         process = subprocess.Popen(

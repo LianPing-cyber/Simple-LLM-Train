@@ -22,7 +22,7 @@ class Evaluate_Normal():
                 self.model_path, trust_remote_code=True, padding_side="left"
         )
 
-        adapter_path = os.path.join(self.model_path,"/adp")
+        adapter_path = os.path.join(self.model_path,"adp")
         if os.path.exists(adapter_path):
             self.model = PeftModel.from_pretrained(
                 self.model_path, adapter_path
@@ -105,7 +105,7 @@ class Evaluate_Normal():
         return accuracy
 
 async def judge_the_correctness(label, generated):
-    f"""You are an answer evaluator tasked with determining whether the provided answer from the assistant is right or wrong.
+    system_prompt=f"""You are an answer evaluator tasked with determining whether the provided answer from the assistant is right or wrong.
 The generated answer: <<{generated}>>
 Reference: <<{label}>>
 -- Please only return "right" or "wrong", without any additional explanations.
