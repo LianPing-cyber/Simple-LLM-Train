@@ -5,18 +5,10 @@ class Trainer:
     def __init__(self, lf_path, lf_dir):
         self.start_file = lf_path + '/src/train.py'
         self.data_dir = lf_dir
-
     def get_source(self, model):
         self.model = model.output_model
         self.dataset = model.task_name
-
     def train(self, epoch):
-        if self.stage == "sft":
-            if self.finetuning_type == "full":
-                self.train_sft_full(epoch)
-            self.train_sft_lora(epoch)
-    
-    def train_sft_lora(self, epoch):
         cmd_head = []
         print(self.nproc_per_node)
         if int(self.nproc_per_node) < 2:
@@ -25,16 +17,13 @@ class Trainer:
             cmd_head = ['torchrun', '--nproc_per_node', self.nproc_per_node, '--master_port', "29500"]
         cmd = cmd_head + [
             self.start_file,
-            '--stage', 'sft',
-            '--finetuning_type', 'lora', 
+            '--stage', self.stage,
             '--max_sample', self.max_sample,
             '--num_train_epochs', epoch,
             '--model_name_or_path', self.model,
-            '--output_dir', self.model + "/adp/",
             '--dataset', self.dataset,
             '--dataset_dir', self.data_dir,
             '--do_train', self.do_train,
-            '--lora_rank', self.lora_rank,
             '--template', self.template,
             '--cutoff_len', self.cutoff_len,
             '--load_best_model_at_end', 'true',
@@ -56,9 +45,19 @@ class Trainer:
             '--bf16', self.bf16,
             '--ddp_timeout', self.ddp_timeout
         ]
+
         adapter_path = os.path.join(self.model_path,"adp")
         if os.path.exists(adapter_path):
             cmd = cmd + ['--adapter_name_or_path', adapter_path]
+        if type == "full":
+            cmd = cmd + ['--finetuning_type', 'full',
+                '--output_dir', self.model,]
+        elif type == "lora":
+            cmd = cmd + ['--finetuning_type', 'lora',
+                '--lora_rank', self.lora_rank,
+                '--output_dir', self.model + "/adp/",
+                ]
+            
         cmd = [str(arg) if not isinstance(arg, (str, bytes)) else arg for arg in cmd] 
         print("Start Train...")
         process = subprocess.Popen(
@@ -90,7 +89,7 @@ class Trainer:
         trust_remote_code="true",
         lora_rank="16",
         template="empty",
-        cutoff_len="256",
+        cutoff_len="1024",
         overwrite_cache="true",
         preprocessing_num_workers="8",
         dataloader_num_workers="4",
