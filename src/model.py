@@ -11,6 +11,11 @@ class Model():
         self.task_name = task_name
         self.trainer = trainer
         self.evaluater = evaluater
+    
+    def continue_train_task(self, task_name, trainer, evaluater=None):
+        self.task_name = task_name
+        self.trainer = trainer
+        self.evaluater = evaluater
 
     def train(self, epoch):
         self.trainer.get_source(self)

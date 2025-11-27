@@ -17,7 +17,8 @@ def main():
     parser.add_argument('--data', type=str, help='Input file path')
     parser.add_argument('--task_name', type=str, help='Detailed output mode')
     parser.add_argument('--do_train', type=int, help="0 means no training, only evaluation; 1 means training + evaluation", default=0)
-    
+    parser.add_argument('--continue_train', type=int, help="0 means new start; 1 means continue training", default=1)
+
     parser.add_argument('--original_model_folder', type=str, help='Folder of the original model')
     parser.add_argument('--output_model_folder', type=str, help='Folder for saving the model')
     parser.add_argument('--epoch_num', type=int, help='Number of training epochs', default=1)
@@ -76,7 +77,10 @@ def main():
                 cutoff_len=args.cutoff_len
                 )
         model = Model(original_model)
-        model.new_train_task(output_model, task_name, trainer)
+        if args.continue_train == 1:
+            model.continue_train_task(task_name, trainer)
+        else:
+            model.new_train_task(output_model, task_name, trainer)
         for epoch in range(epoch_num):
             model.train(1)
 
