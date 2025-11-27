@@ -20,6 +20,7 @@ LF_DATA_DIR="train_data"
 
 PER_DEVICE_TRAIN_BATCH_SIZE=4
 NPROC_PER_NODE=1
+FINETUNING_TYPE="lora"
 LEARNING_RATE=1e-4
 
 python -u src/main.py \
@@ -36,6 +37,7 @@ python -u src/main.py \
     --output_model_folder $OUTPUT_MODEL_FOLDER \
     --per_device_train_batch_size $PER_DEVICE_TRAIN_BATCH_SIZE \
     --learning_rate $LEARNING_RATE \
+    --finetuning_type $FINETUNING_TYPE \
     --nproc_per_node $NPROC_PER_NODE \
     --lf_path $LF_PATH \
     --lf_data_dir $LF_DATA_DIR 2>&1 | tee logs/$LOG.log
