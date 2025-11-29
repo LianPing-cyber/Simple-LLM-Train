@@ -57,11 +57,6 @@ def main():
     with open(f"data_result/{args.name}_{args.eval_type}.json", 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=4)
 
-if __name__ == "__main__":
-    main()
-
-
-
 def get_result(model, tokenizer, dataset, 
     batch_size=64, output_length=256, input_truncate_length=256):
     results = []
@@ -86,7 +81,7 @@ def get_result(model, tokenizer, dataset,
             with torch.no_grad():
                 outputs = model.generate(
                     **inputs,
-                    max_new_tokens=128,
+                    max_new_tokens=output_length,
                     do_sample=True,
                     temperature=0.7,
                     pad_token_id=tokenizer.eos_token_id,
@@ -106,3 +101,6 @@ def get_result(model, tokenizer, dataset,
                 )
             results.extend(new_outputs)
     return results
+
+if __name__ == "__main__":
+    main()

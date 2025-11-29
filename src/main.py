@@ -41,7 +41,6 @@ def main():
 
     parser.add_argument('--per_device_train_batch_size', type=int, help='Batch size for each GPU', default=1)
     parser.add_argument('--nproc_per_node', type=int, help='Parallelization setting for number of processes per node during training', default=2)
-    parser.add_argument('--finetuning_type', type=str, help='finetuning type: full or lora', default='lora')
     parser.add_argument('--learning_rate', type=float, help='Learning rate for training', default=5e-5)
 
     args = parser.parse_args()
