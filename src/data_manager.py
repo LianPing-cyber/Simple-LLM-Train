@@ -55,13 +55,13 @@ class Data_Nomral():
                 "output": item["output"]
             }
             train_alpaca.append(alpaca_item)
-        file_name = f"train_data/{self.name}.json"
+        file_name = f"data_train/{self.name}.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(train_alpaca, f, ensure_ascii=False, indent=2)
         add_info(self.name, file_name, "alpaca")
 
     def eval_write(self):
-        file_name = f"eval_data/{self.name}_eval.json"
+        file_name = f"data_eval/{self.name}_eval.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.templated_eval_data, f, ensure_ascii=False, indent=2)
      
@@ -119,13 +119,13 @@ class Data_DPO():
                 "rejected": item["rejected"]
             }
             train_dpo.append(dpo_item)
-        file_name = f"train_data/{self.name}_dpo.json"
+        file_name = f"data_train/{self.name}_dpo.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(train_dpo, f, ensure_ascii=False, indent=2)
         add_info(self.name, file_name, "dpo")
 
     def eval_write(self):
-        file_name = f"eval_data/{self.name}_eval.json"
+        file_name = f"data_eval/{self.name}_eval.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.templated_eval_data, f, ensure_ascii=False, indent=2)
 

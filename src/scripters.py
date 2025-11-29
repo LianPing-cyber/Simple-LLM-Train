@@ -18,6 +18,8 @@ class Evaluater:
         self.eval_batch_size = eval_batch_size
         self.eval_output_length = eval_output_length
         self.eval_input_truncate_length = eval_input_truncate_length
+        self.base_url = base_url
+        self.api_key = api_key
 
     def eval(self):
         cmd = [

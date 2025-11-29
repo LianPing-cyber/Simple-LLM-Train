@@ -38,7 +38,7 @@ def main():
     adapter_path = os.path.join(args.model_path,"adp")
     if os.path.exists(adapter_path):
         model = PeftModel.from_pretrained(
-            args.model_path, adapter_path
+            model, adapter_path
     )
     model.eval()
 

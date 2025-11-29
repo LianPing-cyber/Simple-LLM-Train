@@ -91,6 +91,7 @@ def main():
         eval_output_length=args.eval_output_length,
         base_url = args.base_url,
         api_key = args.api_key)
+    evaluater.evaluate()
 
 if __name__ == "__main__":
     main()
