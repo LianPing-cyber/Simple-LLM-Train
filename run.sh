@@ -6,6 +6,7 @@ CONTINUE_TRAIN=0
 ORIGINAL_MODEL_FOLDER="xxxxx"
 OUTPUT_MODEL_FOLDER="xxxxx"
 EPOCH_NUM=2
+INNER_EPOCH_NUM=2
 CUTOFF_LEN=256
 TRAIN_STAGE="sft"
 FINETUNING_TYPE="lora"
@@ -18,7 +19,7 @@ EVAL_TEMPLATE="empty"
 EVAL_OUTPUT_LENGTH=1024
 
 LF_PATH="~/LLaMA-Factory"
-LF_DATA_DIR="train_data"
+LF_DATA_DIR="data_train"
 BASE_URL="your_base_url"
 API_KEY="your_api_key"
 
@@ -35,6 +36,7 @@ python -u src/main.py \
     --original_model_folder $ORIGINAL_MODEL_FOLDER \
     --output_model_folder $OUTPUT_MODEL_FOLDER \
     --epoch_num $EPOCH_NUM \
+    --inner_epoch_num $INNER_EPOCH_NUM \
     --cutoff_len $CUTOFF_LEN \
     --train_stage $TRAIN_STAGE \
     --finetuning_type $FINETUNING_TYPE \

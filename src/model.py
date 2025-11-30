@@ -13,6 +13,7 @@ class Model():
         self.evaluater = evaluater
     
     def continue_train_task(self, task_name, trainer, evaluater=None):
+        self.output_model = self.original_model
         self.task_name = task_name
         self.trainer = trainer
         self.evaluater = evaluater

@@ -46,13 +46,13 @@ class Trainer:
             '--ddp_timeout', self.ddp_timeout
         ]
 
-        adapter_path = os.path.join(self.model_path,"adp")
+        adapter_path = os.path.join(self.model,"adp")
         if os.path.exists(adapter_path):
             cmd = cmd + ['--adapter_name_or_path', adapter_path]
-        if type == "full":
+        if self.finetuning_type == "full":
             cmd = cmd + ['--finetuning_type', 'full',
                 '--output_dir', self.model,]
-        elif type == "lora":
+        elif self.finetuning_type == "lora":
             cmd = cmd + ['--finetuning_type', 'lora',
                 '--lora_rank', self.lora_rank,
                 '--output_dir', self.model + "/adp/",
@@ -95,7 +95,7 @@ class Trainer:
         dataloader_num_workers="4",
         per_device_train_batch_size="2",
         per_device_eval_batch_size="4",
-        gradient_accumulation_steps="4",
+        gradient_accumulation_steps="2",
         lr_scheduler_type="cosine",
         warmup_ratio="0.1",
         learning_rate="5e-5",

@@ -4,7 +4,7 @@ from templates import get_template
 
 import random
 
-class Data_Nomral():
+class Data_Normal():
     def __init__(self, name, data, train_num, eval_num):
         self.name = name
         self.data = data
@@ -28,22 +28,22 @@ class Data_Nomral():
         self.templated_train_data = []
         template = get_template(template_name)
         for item in self.train_data:
-            new_input = template.render(input = item['input'])
-            new_output = item["label"]
+            input = template.render(input = item['input'])
+            label = item["label"]
             self.templated_train_data.append({
-                "input": new_input,
-                "label": new_output
+                "input": input,
+                "label": label
             })
     
     def template_eval(self, template_name):
         self.templated_eval_data = []
         template = get_template(template_name)
         for item in self.eval_data:
-            new_input = template.render(input = item['input'])
-            new_output = item["label"]
+            input = template.render(input = item['input'])
+            label = item["label"]
             self.templated_eval_data.append({
-                "input": new_input,
-                "label": new_output
+                "input": input,
+                "label": label
             })
     
     def train_write(self):
@@ -52,7 +52,7 @@ class Data_Nomral():
             alpaca_item = {
                 "instruction": item["input"],
                 "input": "",
-                "output": item["output"]
+                "output": item["label"]
             }
             train_alpaca.append(alpaca_item)
         file_name = f"data_train/{self.name}.json"
@@ -61,7 +61,7 @@ class Data_Nomral():
         add_info(self.name, file_name, "alpaca")
 
     def eval_write(self):
-        file_name = f"data_eval/{self.name}_eval.json"
+        file_name = f"data_eval/{self.name}.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.templated_eval_data, f, ensure_ascii=False, indent=2)
      
@@ -102,10 +102,10 @@ class Data_DPO():
         self.templated_eval_data = []
         template = get_template(template_name)
         for item in self.eval_data:
-            new_input = template.render(input = item['input'])
+            input = template.render(input = item['input'])
             label = item["chosen"]
             self.templated_eval_data.append({
-                "input": new_input,
+                "input": input,
                 "label": label,
             })
 
@@ -125,7 +125,7 @@ class Data_DPO():
         add_info(self.name, file_name, "dpo")
 
     def eval_write(self):
-        file_name = f"data_eval/{self.name}_eval.json"
+        file_name = f"data_eval/{self.name}.json"
         with open(file_name, 'w', encoding='utf-8') as f:
             json.dump(self.templated_eval_data, f, ensure_ascii=False, indent=2)
 

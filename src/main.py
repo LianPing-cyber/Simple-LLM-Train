@@ -22,6 +22,7 @@ def main():
     parser.add_argument('--original_model_folder', type=str, help='Folder of the original model')
     parser.add_argument('--output_model_folder', type=str, help='Folder for saving the model')
     parser.add_argument('--epoch_num', type=int, help='Number of training epochs', default=1)
+    parser.add_argument('--inner_epoch_num', type=int, help='Number of inner training epochs', default=2)
     parser.add_argument('--cutoff_len', type=int, help='Cutoff length for input sequences', default=1024)
     parser.add_argument('--train_stage', type=str, help='Training stage', default='sft')
     parser.add_argument('--finetuning_type', type=str, help='Type of fine-tuning: full or lora', default='lora')
@@ -81,7 +82,7 @@ def main():
         else:
             model.new_train_task(output_model, task_name, trainer)
         for epoch in range(epoch_num):
-            model.train(1)
+            model.train(args.inner_epoch_num)
 
     data.eval_write()
     evaluater = Evaluater(output_model, task_name)
@@ -91,7 +92,7 @@ def main():
         eval_output_length=args.eval_output_length,
         base_url = args.base_url,
         api_key = args.api_key)
-    evaluater.evaluate()
+    evaluater.eval()
 
 if __name__ == "__main__":
     main()

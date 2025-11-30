@@ -71,8 +71,7 @@ def get_result(model, tokenizer, dataset,
                 return_tensors="pt", 
                 padding=True, 
                 truncation=True,
-                max_length=input_truncate_length,
-                pad_token_id=tokenizer.eos_token_id
+                max_length=input_truncate_length
             )
             
             inputs = {k: v.to(model.device) for k, v in inputs.items()}
